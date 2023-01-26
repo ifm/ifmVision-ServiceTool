@@ -305,12 +305,12 @@ class MyWidget(QtWidgets.QWidget):
         # Reset timer
         self._timer_start = timer()
 
-        # Disable all buttons
-        self.disable_buttons()
-
         # Check first if sensors are synced than run extraction function again
         if not self._sync_flag:
             self._sync_sensors()
+
+        # Disable all buttons
+        self.disable_buttons()
 
         # Clear log textbox and write first line
         self.ui.listWidget.clear()
