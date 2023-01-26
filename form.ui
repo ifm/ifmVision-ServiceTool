@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TraceExtractor - O2D5xx - O3D3xx</string>
+   <string>ifmVision - LogTracesExtractor (O2D5, O3D3, O2I5)</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>ifm_logo.ico</normaloff>ifm_logo.ico</iconset>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -91,10 +95,10 @@
      <string>192.168.0.69</string>
     </property>
     <property name="text">
-     <string>up</string>
+     <string>n.a.</string>
     </property>
     <property name="text">
-     <string>Sensor 1</string>
+     <string>Sensor 2D</string>
     </property>
     <property name="text">
      <string>O2D524</string>
@@ -108,13 +112,13 @@
      <string>192.168.0.70</string>
     </property>
     <property name="text">
-     <string>down</string>
-    </property>
-    <property name="text">
      <string>n.a.</string>
     </property>
     <property name="text">
-     <string>n.a.</string>
+     <string>Sensor 3D</string>
+    </property>
+    <property name="text">
+     <string>O3D354</string>
     </property>
    </item>
   </widget>
