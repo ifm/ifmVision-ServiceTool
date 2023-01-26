@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<root>
+	<sensor id="1" ip_address="192.168.0.69" available="up" name="Sensor 1" model="O2D524"/>
+	<sensor id="2" ip_address="192.168.0.150" available="down" name="n.a." model="n.a."/>
+</root>
