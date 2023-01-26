@@ -22,13 +22,6 @@ pip install -r requirements.txt
 
 ## Build stand-alone application
 
-You can build a stand-alone application with the package PyInstaller.
-Install this package with following command from your command shell:
-
-```
-pip install pyinstaller
-```
-
 Navigate to the project folder and build the application with following command:
 
 ```
