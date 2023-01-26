@@ -15,7 +15,7 @@ import threading
 import re
 import os
 
-RECENT_XML_FILE = "./recent.xml"
+RECENT_XML_FILE = os.path.join(os.getenv('APPDATA'), "ifm electronic", "ifmVisionLogTracesExtractor", "recent.xml")
 
 
 class MyWidget(QtWidgets.QWidget):
@@ -40,6 +40,7 @@ class MyWidget(QtWidgets.QWidget):
         self.ui.treeWidget.clicked.connect(self.finish_modify)
 
         self.ui.lineEdit.setText(str(Path.home() / "Downloads"))
+        self._check_or_make_roaming_folder()
         self._init_sensors_from_xml()
 
         self._sync_flag = False
@@ -53,7 +54,7 @@ class MyWidget(QtWidgets.QWidget):
         root.appendChild(xml)
 
         for i in range(len(self.sensor_entries)):
-            productChild = root.createElement('sensor_{}'.format(str(i+1)))
+            productChild = root.createElement('sensor')
             productChild.setAttribute('id', self.sensor_entries[i].text(0))
             productChild.setAttribute('ip_address', self.sensor_entries[i].text(1))
             productChild.setAttribute('available', self.sensor_entries[i].text(2))
@@ -73,21 +74,35 @@ class MyWidget(QtWidgets.QWidget):
         else:
             event.ignore()
 
+    def _check_or_make_roaming_folder(self):
+        try:
+            f = open(RECENT_XML_FILE)
+            f.close()
+        except (FileNotFoundError, IOError):
+            self._add_log_entry(msg="File or directory missing for path: " + RECENT_XML_FILE)
+            dir_path = os.path.dirname(os.path.realpath(RECENT_XML_FILE))
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
+                self._add_log_entry(msg="Created directory " + str(dir_path))
+
     def _init_sensors_from_xml(self):
-        doc = minidom.parse(RECENT_XML_FILE)
-        sensors = doc.getElementsByTagName('sensor')
+        try:
+            doc = minidom.parse(RECENT_XML_FILE)
+            sensors = doc.getElementsByTagName('sensor')
 
-        # Clear all items in tree widget
-        self.ui.treeWidget.clear()
+            # Clear all items in tree widget
+            self.ui.treeWidget.clear()
 
-        for s in sensors:
-            item = QTreeWidgetItem(self.ui.treeWidget)
-            item.setText(0, s.attributes['id'].value)
-            item.setText(1, s.attributes['ip_address'].value)
-            item.setText(2, s.attributes['available'].value)
-            item.setText(3, s.attributes['name'].value)
-            item.setText(4, s.attributes['model'].value)
-            self.ui.treeWidget.addTopLevelItem(item)
+            for s in sensors:
+                item = QTreeWidgetItem(self.ui.treeWidget)
+                item.setText(0, s.attributes['id'].value)
+                item.setText(1, s.attributes['ip_address'].value)
+                item.setText(2, s.attributes['available'].value)
+                item.setText(3, s.attributes['name'].value)
+                item.setText(4, s.attributes['model'].value)
+                self.ui.treeWidget.addTopLevelItem(item)
+        except IOError:
+            self._add_log_entry(msg="Unable to read file: " + RECENT_XML_FILE)
 
     def finish_modify(self):
         threading.Thread(target=self._finish_modify_tree_widget_item, daemon=True).start()
@@ -277,7 +292,7 @@ class MyWidget(QtWidgets.QWidget):
             last_item_index = self.ui.listWidget.count()
             self.ui.listWidget.takeItem(last_item_index-1)
 
-        self.ui.listWidget.addItem(msg)
+        self.ui.listWidget.addItem(str(msg))
         if cnt >= 1:
             _time_elapsed = str(timedelta(seconds=timer() - self._timer_start))
             _bar = self.progress_bar(count=cnt, total=self._total_bar_steps, suffix=_time_elapsed)

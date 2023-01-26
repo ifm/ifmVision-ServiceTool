@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_formWjmcpM.ui'
+## Form generated from reading UI file 'formLkZAWK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.2
 ##
@@ -23,7 +23,10 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(678, 449)
+        Dialog.resize(678, 448)
+        icon = QIcon()
+        icon.addFile(u"ifm_logo.ico", QSize(), QIcon.Normal, QIcon.Off)
+        Dialog.setWindowIcon(icon)
         self.pushButton = QPushButton(Dialog)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(560, 400, 101, 31))
@@ -63,7 +66,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"TraceExtractor - O2D5xx - O3D3xx", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"ifmVision - LogTracesExtractor (O2D5, O3D3, O2I5)", None))
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Extract", None))
 
         __sortingEnabled = self.listWidget.isSortingEnabled()
@@ -83,15 +86,15 @@ class Ui_Dialog(object):
         self.treeWidget.setSortingEnabled(False)
         ___qtreewidgetitem1 = self.treeWidget.topLevelItem(0)
         ___qtreewidgetitem1.setText(4, QCoreApplication.translate("Dialog", u"O2D524", None));
-        ___qtreewidgetitem1.setText(3, QCoreApplication.translate("Dialog", u"Sensor 1", None));
-        ___qtreewidgetitem1.setText(2, QCoreApplication.translate("Dialog", u"up", None));
-        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("Dialog", u"192.168.0.666", None));
+        ___qtreewidgetitem1.setText(3, QCoreApplication.translate("Dialog", u"Sensor 2D", None));
+        ___qtreewidgetitem1.setText(2, QCoreApplication.translate("Dialog", u"n.a.", None));
+        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("Dialog", u"192.168.0.69", None));
         ___qtreewidgetitem1.setText(0, QCoreApplication.translate("Dialog", u"1", None));
         ___qtreewidgetitem2 = self.treeWidget.topLevelItem(1)
-        ___qtreewidgetitem2.setText(4, QCoreApplication.translate("Dialog", u"n.a.", None));
-        ___qtreewidgetitem2.setText(3, QCoreApplication.translate("Dialog", u"n.a.", None));
-        ___qtreewidgetitem2.setText(2, QCoreApplication.translate("Dialog", u"down", None));
-        ___qtreewidgetitem2.setText(1, QCoreApplication.translate("Dialog", u"192.168.0.150", None));
+        ___qtreewidgetitem2.setText(4, QCoreApplication.translate("Dialog", u"O3D354", None));
+        ___qtreewidgetitem2.setText(3, QCoreApplication.translate("Dialog", u"Sensor 3D", None));
+        ___qtreewidgetitem2.setText(2, QCoreApplication.translate("Dialog", u"n.a.", None));
+        ___qtreewidgetitem2.setText(1, QCoreApplication.translate("Dialog", u"192.168.0.70", None));
         ___qtreewidgetitem2.setText(0, QCoreApplication.translate("Dialog", u"2", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled1)
 
