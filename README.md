@@ -25,7 +25,7 @@ pip install -r requirements.txt
 Navigate to the project folder and build the application with following command:
 
 ```
-python -m PyInstaller --onefile --windowed --clean --name LogTracesExtractor.exe main.py
+python -m PyInstaller --onefile --windowed --name LogTracesExtractor main.py
 ```
 
 You will find the stand-alone application LogTracesExtractor.exe in the dist folder.
