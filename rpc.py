@@ -51,54 +51,53 @@ class RPC(object):
         response = self.rpc.getParameter(param)
         return response
 
+    @staticmethod
+    def save_dict_as_json(data, file_path):
+        parsed = json.dumps(data, indent=4)
+        with open(file_path, "w") as f:
+            print(parsed, file=f)
+
     @message_decorator
     def start_getAllParameters_download(self):
         response = self.rpc.getAllParameters()
         json_file = os.path.join(self.save_path, "getAllParameters.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getSWVersion_download(self):
         response = self.rpc.getSWVersion()
         json_file = os.path.join(self.save_path, "getSWVersion.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getHWInfo_download(self):
         response = self.rpc.getHWInfo()
         json_file = os.path.join(self.save_path, "getHWInfo.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getApplicationList_download(self):
         response = self.rpc.getApplicationList()
         json_file = os.path.join(self.save_path, "getApplicationList.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getActiveDataConnections_download(self):
         response = self.rpc.getActiveDataConnections()
         json_file = os.path.join(self.save_path, "getActiveDataConnections.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getTraceLogs_download(self, lines=1000):
         response = self.rpc.getTraceLogs(lines)
         json_file = os.path.join(self.save_path, "getTraceLogs.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_getDmesgData_download(self):
         response = self.rpc.getDmesgData()
         json_file = os.path.join(self.save_path, "getDmesgData.json")
-        with open(json_file, "w") as fp:
-            json.dump(response, fp)
+        self.save_dict_as_json(data=response, file_path=json_file)
 
     @message_decorator
     def start_serviceReport_download(self):
