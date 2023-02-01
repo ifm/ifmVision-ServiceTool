@@ -9,6 +9,7 @@ from PySide6.QtCore import Qt
 from xml.dom import minidom
 from timeit import default_timer as timer
 from datetime import timedelta, datetime
+import argparse
 import sys
 import time
 import threading
@@ -356,7 +357,27 @@ class MyWidget(QtWidgets.QWidget):
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    widget = MyWidget()
-    widget.show()
-    sys.exit(app.exec())
+    # Instantiate the parser
+    parser = argparse.ArgumentParser(description='Optional app description')
+
+    # Required positional argument
+    # '+' == 1 or more.
+    # '*' == 0 or more.
+    # '?' == 0 or 1.
+    parser.add_argument('-i', '--ip', required=True, type=str, nargs='+',
+                        help='The IPs of the sensor you want to extract the log traces from.')
+
+    # Optional positional argument
+    parser.add_argument('-d', '--destination', required=True, type=str, nargs=1,
+                        help='The folder path where you want to store the log traces.')
+    try:
+        args = vars(parser.parse_args())
+
+        if args['ip'] and args['destination']:
+            print(args['ip'])
+            print(args['destination'])
+    except Exception as e:
+        app = QtWidgets.QApplication(sys.argv)
+        widget = MyWidget()
+        widget.show()
+        sys.exit(app.exec())
