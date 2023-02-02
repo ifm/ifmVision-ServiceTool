@@ -1,7 +1,7 @@
 from ui_form import Ui_Dialog
 from rpc import RPC
 from PySide6 import QtWidgets
-from PySide6.QtWidgets import QTreeWidgetItem, QFileDialog
+from PySide6.QtWidgets import QTreeWidgetItem, QFileDialog, QMessageBox
 from pathlib import Path
 from os.path import normpath
 from PySide6.QtGui import QColor
@@ -17,6 +17,8 @@ import re
 import os
 
 RECENT_XML_FILE = os.path.join(os.getenv('APPDATA'), "ifm electronic", "ifmVisionLogTracesExtractor", "recent.xml")
+VERSION = 'T.1.00.00.01'
+TITLE = "ifmVision - LogTracesExtractor (O2D5, O3D3, O2I5)"
 
 
 class MyWidget(QtWidgets.QWidget):
@@ -47,6 +49,8 @@ class MyWidget(QtWidgets.QWidget):
         self._sync_flag = False
         self._total_bar_steps = 0
         self._timer_start = None
+
+        self.setWindowTitle(TITLE + " - " + VERSION)
 
     def closeEvent(self, event):
         root = minidom.Document()
@@ -112,7 +116,16 @@ class MyWidget(QtWidgets.QWidget):
         threading.Thread(target=self._modify_tree_widget_item, daemon=True).start()
 
     def start(self):
-        threading.Thread(target=self._extract_trace_logs, daemon=True).start()
+        # Message box for asking user if he wants to stop the sensors while extracting the data
+        choice = QMessageBox.question(self, 'Extraction Warning!',
+                                            "For the extraction purpose, the sensor is taken out of run mode for a "
+                                            "short time (approx. 20-60 seconds) and does not provide any results. "
+                                            "Are you sure?",
+                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if choice == QMessageBox.StandardButton.Yes:
+            threading.Thread(target=self._extract_trace_logs, daemon=True).start()
+        else:
+            pass
 
     def add(self):
         threading.Thread(target=self._add_sensor, daemon=True).start()
@@ -357,27 +370,28 @@ class MyWidget(QtWidgets.QWidget):
 
 
 if __name__ == '__main__':
-    # Instantiate the parser
-    parser = argparse.ArgumentParser(description='Optional app description')
+    # # Instantiate the parser
+    # parser = argparse.ArgumentParser(description='Optional app description')
+    # example = "LogTracesExtractor.exe -i 192.168.0.69 192.168.0.70 -d C:\\Users\\jeffrey\\Downloads\\myTraces"
+    # parser.add_argument('-i', '--ip', required=True, type=str, nargs='+',
+    #                     help='The IPs of the sensor you want to extract the log traces from.\n'
+    #                          'Here is an example for the command with arguments: ' + example)
+    # parser.add_argument('-d', '--destination', required=True, type=str, nargs=1,
+    #                     help='The folder path where you want to store the log traces.\n'
+    #                          'Here is an example for the command with arguments: ' + example)
+    # try:
+    #     args = vars(parser.parse_args())
+    #
+    #     if args['ip'] and args['destination']:
+    #         print(args['ip'])
+    #         print(args['destination'])
+    # except Exception as e:
+    #     app = QtWidgets.QApplication(sys.argv)
+    #     widget = MyWidget()
+    #     widget.show()
+    #     sys.exit(app.exec())
 
-    # Required positional argument
-    # '+' == 1 or more.
-    # '*' == 0 or more.
-    # '?' == 0 or 1.
-    parser.add_argument('-i', '--ip', required=True, type=str, nargs='+',
-                        help='The IPs of the sensor you want to extract the log traces from.')
-
-    # Optional positional argument
-    parser.add_argument('-d', '--destination', required=True, type=str, nargs=1,
-                        help='The folder path where you want to store the log traces.')
-    try:
-        args = vars(parser.parse_args())
-
-        if args['ip'] and args['destination']:
-            print(args['ip'])
-            print(args['destination'])
-    except Exception as e:
-        app = QtWidgets.QApplication(sys.argv)
-        widget = MyWidget()
-        widget.show()
-        sys.exit(app.exec())
+    app = QtWidgets.QApplication(sys.argv)
+    widget = MyWidget()
+    widget.show()
+    sys.exit(app.exec())
