@@ -34,9 +34,9 @@ class RecentXMLWriter(object):
                     item.setText(5, s.attributes['fw_version'].value)
                     self.tab.sensorTreeWidget.addTopLevelItem(item)
             except IOError:
-                self.tab.loggerBox.add_log_entry(msg="Unable to read file: " + self.tab.recent_xml_file)
+                self.tab.logger_box.add_log_entry(msg="Unable to read file: " + self.tab.recent_xml_file)
         else:
-            self.tab.loggerBox.add_log_entry(msg="File: " + self.tab.recent_xml_file + " does not exist.")
+            self.tab.logger_box.add_log_entry(msg="File: " + self.tab.recent_xml_file + " does not exist.")
 
     def init_path_from_existing_recent_xml(self):
         if os.path.isfile(self.tab.recent_xml_file):
